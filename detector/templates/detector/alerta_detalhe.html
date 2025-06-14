@@ -1,0 +1,46 @@
+{% extends 'detector/base.html' %}
+
+{% block content %}
+<a href="{% url 'dashboard' %}" class="btn btn-secondary btn-sm mb-3">&larr; Voltar para o Dashboard</a>
+<h1>Detalhes do Alerta #{{ alerta.id }}</h1>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">Informações da Transação</div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><b>ID Externo:</b> {{ alerta.transacao.id_transacao_externo }}</li>
+                <li class="list-group-item"><b>Valor:</b> R$ {{ alerta.transacao.valor }}</li>
+                <li class="list-group-item"><b>Data e Hora:</b> {{ alerta.transacao.timestamp }}</li>
+                <li class="list-group-item"><b>ID Cliente:</b> {{ alerta.transacao.id_cliente }}</li>
+                <li class="list-group-item"><b>IP do Cliente:</b> {{ alerta.transacao.ip_cliente }}</li>
+                <li class="list-group-item"><b>Localização:</b> {{ alerta.transacao.cidade_cliente }}, {{ alerta.transacao.pais_cliente }}</li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">Análise de Fraude</div>
+            <div class="card-body">
+                <h5 class="card-title">Score de Fraude: <span class="text-danger">{{ alerta.score_fraude }}</span></h5>
+                <p><b>Motivos da Suspeita:</b></p>
+                <pre>{{ alerta.motivo }}</pre>
+                <hr>
+                <p><b>Status Atual:</b> {{ alerta.get_status_display }}</p>
+
+                {% if alerta.status == 'Pendente' %}
+                <p><b>Marcar como:</b></p>
+                <form method="post" action="{% url 'marcar_status' alerta.id 'Confirmada' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Fraude Confirmada</button>
+                </form>
+                <form method="post" action="{% url 'marcar_status' alerta.id 'Segura' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-success">Transação Segura</button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>Login - Painel de Fraudes Fênix</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@latest/dist/css/tabler.min.css">
+    
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f5f7fb; /* Fundo cinza bem claro */
+        }
+        .container-tight {
+            width: 100%;
+            max-width: 450px;
+        }
+        .card {
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.07);
+        }
+        .card-body {
+            padding: 2.5rem;
+        }
+        .login-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #182433;
+            margin-bottom: 0.5rem;
+        }
+        .login-subtitle {
+            color: #626976;
+            margin-bottom: 2rem;
+        }
+        .login-subtitle a {
+            font-weight: 600;
+            color: #206bc4;
+            text-decoration: none;
+        }
+        .login-subtitle a:hover {
+            text-decoration: underline;
+        }
+        .form-label {
+            font-weight: 600;
+            color: #4a5363;
+        }
+        .form-control {
+            border-radius: 8px;
+            padding: 0.85rem 1rem;
+            border: 1px solid #d9dee4;
+        }
+        .btn-dark { /* Mudamos para btn-dark para o botão preto */
+            background-color: #182433;
+            border-color: #182433;
+            font-weight: 600;
+            padding: 0.75rem;
+            border-radius: 8px;
+        }
+        .btn-dark:hover {
+            background-color: #2b3a4e;
+            border-color: #2b3a4e;
+        }
+        .forgot-password-link {
+            text-align: right;
+            margin-top: -1rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+        .forgot-password-link a {
+            font-size: 0.875rem;
+            color: #206bc4;
+            text-decoration: none;
+        }
+        .or-separator {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: #9da5b4;
+            margin: 1.5rem 0;
+        }
+        .or-separator::before,
+        .or-separator::after {
+            content: ''; flex: 1; border-bottom: 1px solid #dee2e6;
+        }
+        .or-separator:not(:empty)::before { margin-right: .5em; }
+        .or-separator:not(:empty)::after { margin-left: .5em; }
+        
+        .social-login-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+    </style>
+</head>
+<body class="d-flex flex-column">
+    <div class="page page-center">
+        <div class="container container-tight py-4">
+            <div class="card card-md">
+                <div class="card-body">
+                    <h2 class="text-center login-title">Log In</h2>
+                    <p class="text-center login-subtitle">New to this site? <a href="#">Sign Up</a></p>
+                    
+                    {% if form.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            Seu nome de usuário ou senha estão incorretos. Por favor, tente novamente.
+                        </div>
+                    {% endif %}
+
+                    <form action="{% url 'login' %}" method="post" autocomplete="off" novalidate>
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="text" name="username" class="form-control" placeholder="Seu nome de usuário ou email">
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label">Password</label>
+                            <input type="password" name="password" class="form-control" placeholder="Sua senha">
+                        </div>
+                        <div class="forgot-password-link">
+                            <a href="#">Forgot password?</a>
+                        </div>
+                        <div class="form-footer">
+                            <button type="submit" class="btn btn-dark w-100">Log In</button>
+                        </div>
+                    </form>
+
+                    <div class="hr-text or-separator">or Log In with</div>
+
+                    <div class="social-login-buttons">
+                        <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M17.788 5.108a9 9 0 1 0 3.212 6.892h-8" /></svg></a>
+                        <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-facebook" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3" /></svg></a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

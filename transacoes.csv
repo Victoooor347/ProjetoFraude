@@ -1,0 +1,16 @@
+id_transacao,valor,timestamp,id_cliente,ip_cliente,cidade_cliente,pais_cliente
+tx_2001,150.25,2025-06-10 10:15:00,cli_abc,200.20.10.1,Sao Paulo,BR
+tx_2002,75.50,2025-06-10 11:05:00,cli_def,189.10.5.2,Rio de Janeiro,BR
+tx_2003,3500.00,2025-06-10 14:20:00,cli_ghi,177.5.8.9,Salvador,BR
+tx_2004,25.99,2025-06-11 09:30:00,cli_jkl,201.15.3.1,Curitiba,BR
+tx_2005,199.90,2025-06-11 18:45:00,cli_abc,200.20.10.1,Sao Paulo,BR
+tx_2006,550.00,2025-06-11 20:10:00,cli_mno,192.168.1.5,Lisbon,PT
+tx_2007,12.50,2025-06-12 08:00:00,cli_def,189.10.5.2,Rio de Janeiro,BR
+tx_2008,480.00,2025-06-12 02:45:00,cli_pqr,8.8.8.8,Moscow,RU
+tx_2009,89.00,2025-06-12 13:00:00,cli_ghi,177.5.8.9,Salvador,BR
+tx_2010,990.00,2025-06-12 16:50:00,cli_stu,45.22.1.3,Miami,US
+tx_2011,125.00,2025-06-13 09:00:00,cli_vwx,95.40.20.3,Lagos,NG
+tx_2012,300.00,2025-06-13 11:25:00,cli_abc,200.20.10.1,Sao Paulo,BR
+tx_2013,18.00,2025-06-13 15:00:00,cli_jkl,201.15.3.1,Curitiba,BR
+tx_2014,210.70,2025-06-13 17:10:00,cli_ghi,177.5.8.9,Salvador,BR
+tx_2015,1150.00,2025-06-13 22:05:00,cli_yz,1.1.1.1,Pyongyang,KP

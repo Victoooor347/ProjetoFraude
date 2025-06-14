@@ -1,0 +1,24 @@
+{% extends 'detector/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">Carregar Arquivo CSV de Transações</div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="arquivo_csv" class="form-label">Selecione o arquivo</label>
+                        <input class="form-control" type="file" id="arquivo_csv" name="arquivo_csv" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </form>
+                <hr>
+                <p class="small">O CSV deve ter o formato: id_transacao,valor,timestamp,id_cliente,ip_cliente,cidade_cliente,pais_cliente</p>
+                <p class="small">Exemplo: <code>t123,150.75,2025-06-13 21:00:00,c456,189.45.23.1,Porto Alegre,BR</code></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,6 @@
+id_transacao,valor,timestamp,id_cliente,ip_cliente,cidade_cliente,pais_cliente
+tx_3001,45.50,2025-06-14 00:45:00,cli_def,189.10.5.2,Rio de Janeiro,BR
+tx_3002,2800.00,2025-06-14 00:55:00,cli_jkl,155.45.3.1,Bogota,CO
+tx_3003,330.00,2025-06-14 01:05:00,cli_stu,45.22.1.3,Miami,US
+tx_3004,19.90,2025-06-14 01:15:00,cli_new_user,210.10.20.5,Sydney,AU
+tx_3005,1200.00,2025-06-14 01:25:00,cli_new_user,210.10.20.5,Sydney,AU

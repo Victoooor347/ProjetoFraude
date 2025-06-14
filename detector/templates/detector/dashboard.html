@@ -1,0 +1,96 @@
+{% extends 'detector/base.html' %}
+
+{% block content %}
+<div class="page-header d-print-none">
+    <div class="row align-items-center">
+        <div class="col">
+            <h2 class="page-title">Dashboard de Alertas</h2>
+            <div class="text-muted mt-1">Visão geral do sistema de detecção de fraudes.</div>
+        </div>
+    </div>
+</div>
+
+<div class="row row-deck row-cards mt-3">
+    <div class="col-sm-6 col-lg-3">
+        <div class="card card-sm">
+            <div class="card-body"><div class="row align-items-center"><div class="col-auto"><span class="bg-primary text-white avatar"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-sum" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 16v2a1 1 0 0 1 -1 1h-11l6 -7l-6 -7h11a1 1 0 0 1 1 1v2" /></svg></span></div><div class="col"><div class="font-weight-medium">Total de Alertas</div><div class="text-muted">{{ stats.total_alertas }}</div></div></div></div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="card card-sm">
+            <div class="card-body"><div class="row align-items-center"><div class="col-auto"><span class="bg-warning text-white avatar"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hourglass" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6.5 7h11" /><path d="M6 20v-2a6 6 0 1 1 12 0v2a1 1 0 0 1 -1 1h-10a1 1 0 0 1 -1 -1z" /><path d="M6 4v2a6 6 0 1 0 12 0v-2a1 1 0 0 0 -1 -1h-10a1 1 0 0 0 -1 1z" /></svg></span></div><div class="col"><div class="font-weight-medium">{{ stats.pendentes }} Pendentes</div><div class="text-muted">Aguardando análise</div></div></div></div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="card card-sm">
+            <div class="card-body"><div class="row align-items-center"><div class="col-auto"><span class="bg-danger text-white avatar"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-shield-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 3a12 12 0 0 0 8.5 3a12 12 0 0 1 -8.5 15a12 12 0 0 1 -8.5 -15a12 12 0 0 0 8.5 -3" /><path d="M10 10l4 4m0 -4l-4 4" /></svg></span></div><div class="col"><div class="font-weight-medium">{{ stats.confirmadas }} Fraudes Confirmadas</div><div class="text-muted">Ações maliciosas</div></div></div></div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="card card-sm">
+            <div class="card-body"><div class="row align-items-center"><div class="col-auto"><span class="bg-success text-white avatar"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-shield-check" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 3a12 12 0 0 0 8.5 3a12 12 0 0 1 -8.5 15a12 12 0 0 1 -8.5 -15a12 12 0 0 0 8.5 -3" /><path d="M9 12l2 2l4 -4" /></svg></span></div><div class="col"><div class="font-weight-medium">{{ stats.seguras }} Transações Seguras</div><div class="text-muted">Ações verificadas</div></div></div></div>
+        </div>
+    </div>
+</div>
+
+<div class="row row-deck row-cards mt-2">
+    <div class="col-lg-8">
+        <div class="card h-100"><div class="card-header"><h3 class="card-title">Top 5 Alertas Pendentes Mais Críticos</h3></div><div class="card-body"><canvas id="topAlertasChart"></canvas></div></div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card h-100"><div class="card-header"><h3 class="card-title">Distribuição de Risco (Pendentes)</h3></div><div class="card-body"><canvas id="distribuicaoRiscoChart"></canvas></div></div>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-header"><h3 class="card-title">Todos os Alertas Pendentes</h3></div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="tabela-alertas" class="table table-vcenter card-table table-striped" style="width:100%">
+                <thead><tr><th>ID Transação</th><th>Valor</th><th>Score</th><th>Status</th><th>Ação</th></tr></thead>
+                <tbody>
+                {% for alerta in alertas %}
+                <tr>
+                    <td>{{ alerta.transacao.id_transacao_externo }}</td>
+                    <td>R$ {{ alerta.transacao.valor }}</td>
+                    <td><span class="badge bg-danger-lt p-2">{{ alerta.score_fraude|floatformat:0 }}</span></td>
+                    <td>
+                        {% if alerta.status == 'Pendente' %}<span class="badge bg-warning-lt">{{ alerta.status }}</span>
+                        {% elif alerta.status == 'Confirmada' %}<span class="badge bg-danger-lt">{{ alerta.status }}</span>
+                        {% else %}<span class="badge bg-success-lt">{{ alerta.status }}</span>
+                        {% endif %}
+                    </td>
+                    <td><a href="{% url 'alerta_detalhe' alerta.id %}" class="btn btn-sm btn-primary">Ver Detalhes</a></td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block page_scripts %}
+<script>
+$(document).ready(function() {
+    const topAlertasCtx = document.getElementById('topAlertasChart');
+    if (topAlertasCtx) {
+        new Chart(topAlertasCtx, {
+            type: 'bar', data: { labels: {{ top_alertas_labels|safe }}, datasets: [{ label: 'Score de Fraude', data: {{ top_alertas_data|safe }}, backgroundColor: 'rgba(214, 57, 57, 0.8)' }] },
+            options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, scales: { x: { beginAtZero: true, max: 100 } }, plugins: { legend: { display: false } } }
+        });
+    }
+    const distribuicaoRiscoCtx = document.getElementById('distribuicaoRiscoChart');
+    if(distribuicaoRiscoCtx) {
+        new Chart(distribuicaoRiscoCtx, {
+            type: 'doughnut', data: { labels: ['Risco Alto (>90)','Risco Médio (70-90)','Risco Baixo (<70)'], datasets: [{ data: {{ distribuicao_data|safe }}, backgroundColor: ['#d63939','#f59f00','#2fb344'], hoverOffset: 4 }] },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+    }
+    $('#tabela-alertas').DataTable({
+        "language": { "sEmptyTable": "Nenhum registro encontrado", "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_", "sInfoEmpty": "Mostrando 0 de 0", "sInfoFiltered": "(Filtrados de _MAX_)", "sLengthMenu": "Mostrar _MENU_ registros", "sLoadingRecords": "Carregando...", "sProcessing": "Processando...", "sZeroRecords": "Nenhum registro encontrado", "sSearch": "Pesquisar:", "oPaginate": { "sNext": ">", "sPrevious": "<" } },
+        "order": [[ 2, "desc" ]], "pageLength": 5, "lengthMenu": [[5, 10, 25, -1], [5, 10, 25, "Todos"]]
+    });
+});
+</script>
+{% endblock %}
